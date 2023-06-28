@@ -1,5 +1,3 @@
-import os
-
 import uvicorn
 from fastapi import FastAPI
 from starlette.requests import Request
@@ -19,13 +17,18 @@ app.add_middleware(
 )
 
 
-@app.post("/get_token")
-async def index(req: Request):
-    data = await req.json()
-    username = data.get('username', '')
-    password = data.get('password', '')
+@app.get("/get_token")
+async def get_token(req: Request):
+    params = req.query_params
+    username = params.get('username', '')
+    password = params.get('password', '')
     access_token = Auth0(username, password).auth(True)
-    return JSONResponse({"token": access_token})
+    return access_token
+
+
+@app.get("/")
+async def index():
+    return JSONResponse({"status": "ok"})
 
 
 if __name__ == "__main__":
