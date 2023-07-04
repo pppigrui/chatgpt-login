@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from starlette.requests import Request
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
-
+from fastapi.responses import Response
 from utils import Auth0
 
 app = FastAPI(default_response_class=JSONResponse, default_encoding="utf-8")
@@ -23,7 +23,7 @@ async def get_token(req: Request):
     username = params.get('username', '')
     password = params.get('password', '')
     access_token = Auth0(username, password).auth(True)
-    return access_token
+    return Response(access_token)
 
 
 @app.get("/")
