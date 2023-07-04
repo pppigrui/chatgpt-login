@@ -23,7 +23,7 @@ async def get_token(req: Request):
     username = params.get('username', '')
     password = params.get('password', '')
     access_token = Auth0(username, password).auth(True)
-    return {"token": access_token}
+    return access_token
 
 
 @app.get("/")
