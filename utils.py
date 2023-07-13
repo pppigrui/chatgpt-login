@@ -6,19 +6,15 @@
 
 import datetime
 import re
-import urllib.parse
 from datetime import datetime as dt
-from os import getenv
 from urllib.parse import urlparse, parse_qs
 
 import requests
 from certifi import where
-
-from datetime import datetime, timedelta
-
+from datetime import timedelta
 
 def default_api_prefix():
-    return 'https://ai-{}.fakeopen.com'.format((datetime.now() - timedelta(days=1)).strftime('%Y%m%d'))
+    return 'https://ai-{}.fakeopen.com'.format((dt.now() - timedelta(days=1)).strftime('%Y%m%d'))
 
 
 class Auth0:
@@ -232,7 +228,7 @@ class Auth0:
                 self.refresh_token = json['refresh_token']
 
             self.access_token = json['access_token']
-            self.expires = dt.utcnow() + datetime.timedelta(seconds=json['expires_in']) - datetime.timedelta(minutes=5)
+            self.expires = dt.utcnow() + timedelta(seconds=json['expires_in']) - timedelta(minutes=5)
             return self.access_token
         else:
             raise Exception(resp.text)
